@@ -21,6 +21,12 @@
         th {
             padding: 10px;
         }
+
+        .faca {
+            cursor: pointer;
+            padding: 20%;
+            font-size: 20px;
+        }
     </style>
 </head>
 
@@ -94,27 +100,61 @@
             }
 
             class CardViewer extends React.Component {
+                
                 constructor(props) {
                     super(props);
                     this.state = {
                         position: 0,
-                        side: front
-
-
-
-                    }
+                        side: true
+                    };
                 }
 
                 render() {
-                    return (
-                        <div>
+                    const kopija = [...this.props.cards]
+                    const proba = kopija[this.state.position]
+                    
+                    
+                    if (this.state.side) {
+                        return (    <div>
                             This is the viewer.
-
+                         <div className="faca" onClick={this.setPosition}> {proba.front}</div>
+                         <button onClick={this.set3Position}>Next card</button>
+                            <hr/>
+                            <button onClick={this.props.switchMode}>Go to Editor</button>
+                           
+                        </div> );
+                        } else { 
+                                return (
+                                    <div>
+                            This is the viewer.
+                         <div className="faca" onClick={this.set2Position}> {proba.back}</div>
+                         <button onClick={this.set3Position}>Next card</button>
                             <hr/>
                             <button onClick={this.props.switchMode}>Go to Editor</button>
                         </div>
-                    );
+                                )
+
+                        }
+                        
+                    }
+                    setPosition = () => {
+                    this.setState(state => ({
+                        side: false
+                    }));
                 }
+
+                set2Position = () => {
+                    this.setState(state => ({
+                        side: true
+                    }));
+                }
+                set3Position = () => {
+                    this.setState(state => ({
+                        side: true,
+                        position: this.state.position +1
+                    }));
+                }
+
             }
 
             class App extends React.Component {
